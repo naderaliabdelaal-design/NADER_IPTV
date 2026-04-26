@@ -8,20 +8,15 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(decodeURIComponent(url), {
       headers: {
-        "User-Agent": "Mozilla/5.0 (SmartTV) AppleWebKit/537.36",
-        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Referer": decodeURIComponent(url).split("/player_api")[0] + "/",
       },
     });
 
     const text = await response.text();
-
-    if (text.trim().startsWith("<")) {
-      return res.status(502).json({ 
-        error: "Portal URL غلط أو البيانات غلط"
-      });
-    }
-
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type", "text/plain");
     res.status(200).send(text);
   } catch (e) {
     res.status(500).json({ error: e.message });
